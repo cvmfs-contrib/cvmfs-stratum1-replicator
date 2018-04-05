@@ -10,17 +10,32 @@ This is a relatively simple set of systemd units that keep a Stratum-1 up-to-dat
 - `cvmfs-snapshot-generator`: Generates one tempalted snapshot service/timer per installed repo.
 - `cvmfs-stratum1-replicator.spec`: RPM spec file.
 
-To use, copy files into a tarball and build/install the RPM.  Then, enable the cvmfs-snapshot service:
+To use, copy files into a tarball and build/install the RPM, or install
+it from [cvmfs-contrib](https://cvmfs-contrib.github.io).  Then,
+enable and start the cvmfs-snapshot service:
 
 ```
 systemctl enable cvmfs-snapshot
 systemctl start cvmfs-snapshot
 ```
 
-The second line will enable one unit per repo.  To stop snapshots, disable the top-level service:
+The second line will enable one unit per repo.  To stop snapshots, use
+the following command, with an optional -f to force immediate stopping.
 
 ```
-systemctl stop cvmfs-snapshot
+stop-cvmfs-snapshots -f
+```
+
+Reload systemd and restart the services:
+----------------------------------------
+
+Any time new repositories are added or parameters are changed, do
+the following two commands:
+
+
+```
+systemctl daemon-reload
+systemctl restart cvmfs-snapshot
 ```
 
 Overriding Defaults
@@ -34,10 +49,7 @@ create a file `/etc/systemd/system/cvmfs-snapshot@.timer.d/10-increase-timer.con
 OnUnitInactiveSec=30s
 ```
 
-Reload systemd and restart the services:
+Logs
+----
 
-```
-systemctl daemon-reload
-systemctl restart cvmfs-snapshot
-```
-
+Each repository is logged separately.  A convenience function

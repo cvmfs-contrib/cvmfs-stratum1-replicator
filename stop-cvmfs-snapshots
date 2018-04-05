@@ -1,0 +1,21 @@
+#!/bin/bash
+if [ $# != 0 ]; then
+    if [ $# -gt 1 ] || [ "$1" != "-f" ]; then
+        echo "Unrecognized option(s): $*" >&2
+        echo "Usage: stop-cvmfs-snapshots [-f]" >&2
+        echo " Stops new cvmfs snapshots from starting." >&2
+        echo " The [-f] option immediately stops running snapshots too." >&2
+        exit 1
+    fi
+fi
+systemctl stop cvmfs-snapshot
+cd /etc/cvmfs/repositories.d
+for d in *;do
+    if [ ! -f $d/replica.conf ]; then continue; fi
+    echo $d
+    systemctl stop cvmfs-snapshot@$d.timer
+    if [ "$1" = "-f" ]; then
+        systemctl stop cvmfs-snapshot@$d.service
+        rm -f /var/spool/cvmfs/$d/is_updating.lock
+    fi
+done

@@ -1,0 +1,18 @@
+#!/bin/bash
+if [ $# -lt 1 ]; then
+    echo "Usage: see-cvmfs-snapshot reponame [journalctl options]" >&2
+    echo " Show the logs for a cvmfs-snapshot repository" >&2
+    echo " A helpful journalctl option is -f to tail the log" >&2
+    exit 1
+fi
+REPO="$1"
+shift
+if [ ! -f /etc/cvmfs/repositories.d/$REPO/replica.conf ]; then
+    echo "see-cvmfs-snapshot: unknown repo $REPO" >&2
+    exit 2
+fi
+exec journalctl -u "cvmfs-snapshot@$REPO" "$@" | if tty -s <&1 && [ $# = 0 ]; then
+    less
+else
+    cat
+fi
