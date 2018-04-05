@@ -32,6 +32,7 @@ on a CVMFS Stratum-1 server.
 
 install -d $RPM_BUILD_ROOT/%{_unitdir}
 install -d $RPM_BUILD_ROOT/usr/lib/systemd/system-generators
+install -d $RPM_BUILD_ROOT/usr/bin
 install -m 0644 cvmfs-snapshot.service $RPM_BUILD_ROOT%{_unitdir}/cvmfs-snapshot.service
 install -m 0644 cvmfs-snapshot@.service $RPM_BUILD_ROOT%{_unitdir}/cvmfs-snapshot@.service
 install -m 0644 cvmfs-snapshot@.timer $RPM_BUILD_ROOT%{_unitdir}/cvmfs-snapshot@.timer
