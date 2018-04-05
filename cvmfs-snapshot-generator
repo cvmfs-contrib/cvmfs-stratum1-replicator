@@ -2,12 +2,13 @@
 
 import os
 import sys
+import time
 import glob
 
 BASE_DIR="/usr/lib/systemd/system"
 
 with open("/tmp/genlog", "a") as fp:
-    fp.write("ran genlog")
+    fp.write(time.asctime(time.localtime(time.time())) + " ran genlog\n")
 
 if len(sys.argv) != 4:
    print >> sys.stderr, "Usage: %s <normal-dir> <early-dir> <late-dir>" % sys.argv[0]
@@ -21,6 +22,9 @@ os.mkdir(requires_dir)
 for dirname in glob.glob("/etc/cvmfs/repositories.d/*"):
     replica_conf = os.path.join(dirname, "replica.conf")
     if not os.path.exists(replica_conf):
+        continue
+    last_snapshot = os.path.join("/srv/cvmfs", os.path.basename(dirname), ".cvmfs_last_snapshot")
+    if not os.path.exists(last_snapshot):
         continue
     repo_name = os.path.split(dirname)[-1]
 
