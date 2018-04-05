@@ -1,5 +1,5 @@
 Name:		cvmfs-stratum1-replicator
-Version:	0.1
+Version:	0.2
 Release:	1%{?dist}
 Summary:	Snapshot services for the CVMFS Stratum-1
 
@@ -52,4 +52,10 @@ install -m 0755 cvmfs-snapshot-generator $RPM_BUILD_ROOT/usr/lib/systemd/system-
 /usr/lib/systemd/system-generators/cvmfs-snapshot-generator
 
 %changelog
+* Thu Apr 05 2018 Dave Dykstra <dwd@fnal.gov> - 0.2-1
+- Don't generate a repository replicator service until the initial
+  snapshot is completed.
+- Add a timestamp to the entries in /tmp/genlog.
 
+* Wed Jan 11 2017 Brian Bockelman <bbockelm@cse.unl.edu> - 0.1-1
+- Initial version
