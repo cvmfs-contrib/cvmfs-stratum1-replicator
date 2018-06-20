@@ -1,5 +1,5 @@
 Name:		cvmfs-stratum1-replicator
-Version:	0.3
+Version:	0.4
 # The release_prefix macro is used in the OBS prjconf, don't change its name
 %define release_prefix 1
 Release:	%{release_prefix}%{?dist}
@@ -60,6 +60,9 @@ install -m 0755 stop-cvmfs-snapshots $RPM_BUILD_ROOT/usr/bin/stop-cvmfs-snapshot
 /usr/bin/stop-cvmfs-snapshots
 
 %changelog
+* Wed Jun 20 2018 Dave Dykstra <dwd@fnal.gov> - 0.4-1
+- Move spec file to rpm subdir for easier osg build from git
+
 * Thu Apr 05 2018 Dave Dykstra <dwd@fnal.gov> - 0.3-1
 - Add see-cvmfs-snapshot and stop-cvmfs-snapshots commands.
 - Use a %release_prefix macro to work better with the OpenSUSE Build Service.
