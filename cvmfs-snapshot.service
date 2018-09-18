@@ -15,3 +15,7 @@ StandardOutput=journal
 
 ExecStart=/usr/bin/echo "Starting CVMFS Stratum-1 Snapshot service."
 
+# If the server is enabled, then have it startup with the multi-user
+# target.
+[Install]
+WantedBy=multi-user.target
